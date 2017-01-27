@@ -26,14 +26,14 @@ Promise.toObject({
 
 ```
 
-#### Copying the original object
+#### Copying the original object :
 Useful if you intend to reuse the object with promises later.
 
 ```javascript
 Promise.toObject(someObjectWithPromises, { copy: true })
 ```
 
-#### Works with unlimited nested objects
+#### Works with unlimited nested objects :
 
 ```javascript
 let someObjectWithPromises = {
