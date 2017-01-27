@@ -1,0 +1,11 @@
+{
+  "name": "promise-to-object",
+  "version": "1.0.0",
+  "description": "Promises to object",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "author": "Francois Parquet",
+  "license": "ISC"
+}
