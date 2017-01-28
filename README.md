@@ -61,7 +61,7 @@ Promise.toObject({
     someArrayWithPromises: [
         'hello',
         new Promise((resolve, reject) => {
-            return resolve({name: 'world !'});
+            return resolve('world !');
         })
     ]
 })
