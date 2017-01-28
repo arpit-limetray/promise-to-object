@@ -8,6 +8,9 @@ global.Promise.toObject = require('./index.js');
 
 let testObjSucc = {
     testT: 'Hello World',
+    testA: ['test', new Promise((resolve, reject) => {
+        return resolve({name: 'testA'});
+    })],
     testP: new Promise((resolve, reject) => {
         return resolve({name: 'testP'});
     }),
@@ -21,7 +24,10 @@ let testObjSucc = {
         testNn: {
             nested: new Promise((resolve, reject) => {
                 return resolve({name: 'testPp'});
-            })
+            }),
+            nestedA: ['test', new Promise((resolve, reject) => {
+                return resolve({name: 'testA'});
+            })]
         }
     }
 };
@@ -43,6 +49,7 @@ Promise.toObject(testObjSucc, { copy: true })
     assert(result !== testObjSucc);
     assert.deepEqual(result, {
         testT: 'Hello World',
+        testA: ['test', {name: 'testA'}],
         testP: {
             name: 'testP'
         },
@@ -52,7 +59,8 @@ Promise.toObject(testObjSucc, { copy: true })
         testNested: {
             obj: { name: 'testPp' },
             testNn: {
-                nested: { name: 'testPp' }
+                nested: { name: 'testPp' },
+                nestedA: ['test', {name: 'testA'}]
             }
         }
     });
@@ -77,6 +85,7 @@ Promise.toObject(testObjSucc, { copy: true })
     assert.deepEqual(result, testObjSucc);
     assert.deepEqual(result, {
         testT: 'Hello World',
+        testA: ['test', {name: 'testA'}],
         testP: {
             name: 'testP'
         },
@@ -86,7 +95,8 @@ Promise.toObject(testObjSucc, { copy: true })
         testNested: {
             obj: { name: 'testPp' },
             testNn: {
-                nested: { name: 'testPp' }
+                nested: { name: 'testPp' },
+                nestedA: ['test', {name: 'testA'}]
             }
         }
     });

@@ -51,5 +51,25 @@ Promise.toObject(someObjectWithPromises, { copy: true })
 })
 ```
 
+#### Works with Arrays
+Mixed arrays will return the array with the result of promise at the same index
+the promise was.
+Example :
+```javascript
+Promise.toObject({
+    foo: 'bar',
+    someArrayWithPromises: [
+        'hello',
+        new Promise((resolve, reject) => {
+            return resolve({name: 'world !'});
+        })
+    ]
+})
+.then(result => {
+    console.log(result.foo); // bar
+    console.log(result.someArrayWithPromises); // ['hello', 'world !']
+})
+```
+
 #### Promise rejection
 Rejection will occur when first promise rejection happens.

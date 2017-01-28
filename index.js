@@ -11,7 +11,7 @@ var promiseToObject = function(object, opts){
         var copy = {};
         target = copy;
     } else {
-        target = object
+        target = object;
     }
     return new Promise(function(resolve, reject) {
         if (keys.length > 0) {
@@ -27,14 +27,31 @@ var promiseToObject = function(object, opts){
                                 return reject(error);
                             })
                         }));
+                    } else if (object[k] instanceof Array) {
+                        target[k] = object[k];
+                        agg.concat(object[k].reduce(function(agg, elt, index) {
+                            if (typeof elt === 'object') {
+                                agg.push(new Promise(function(resolve, reject) {
+                                    return promiseToObject(elt, opts)
+                                    .then(function(result) {
+                                        target[k][index] = result;
+                                        return resolve();
+                                    })
+                                    .catch(function(error) {
+                                        return reject(error);
+                                    });
+                                }));
+                            }
+                            return agg;
+                        }, []));
                     } else if (typeof(object[k]) === 'object')  {
                         agg.push(new Promise(function(resolve, reject) {
                             promiseToObject(object[k], opts)
-                            .then(result => {
+                            .then(function(result) {
                                 target[k] = result;
                                 return resolve();
                             })
-                            .catch(error => {
+                            .catch(function(error) {
                                 return reject(error);
                             });
                         }));

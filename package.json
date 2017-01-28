@@ -1,8 +1,12 @@
 {
   "name": "promise-to-object",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Promises to object",
   "main": "index.js",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/francoispqt/promise-to-object"
+  },
   "scripts": {
     "test": "node test"
   },
