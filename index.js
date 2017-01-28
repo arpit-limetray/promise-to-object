@@ -28,7 +28,7 @@ var promiseToObject = function(object, opts){
                             })
                         }));
                     } else if (object[k] instanceof Array) {
-                        target[k] = object[k];
+                        target[k] = target[k] || [];
                         agg.concat(object[k].reduce(function(agg, elt, index) {
                             if (typeof elt === 'object') {
                                 agg.push(new Promise(function(resolve, reject) {
@@ -41,6 +41,8 @@ var promiseToObject = function(object, opts){
                                         return reject(error);
                                     });
                                 }));
+                            } else {
+                                target[k][index] = elt;
                             }
                             return agg;
                         }, []));

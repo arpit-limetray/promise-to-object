@@ -1,5 +1,5 @@
 # Promise to object
-Resolves an object containing promises, works with nested promises.
+Resolves an object containing promises, works with nested promises and arrays.
 Works with Bluebird.
 
 ### How to use ?

@@ -82,25 +82,31 @@ Promise.toObject(testObjSucc, { copy: true })
     process.exit(1);
 })
 .then(result => {
-    assert.deepEqual(result, testObjSucc);
-    assert.deepEqual(result, {
-        testT: 'Hello World',
-        testA: ['test', {name: 'testA'}],
-        testP: {
-            name: 'testP'
-        },
-        testPp: {
-            name: 'testPp'
-        },
-        testNested: {
-            obj: { name: 'testPp' },
-            testNn: {
-                nested: { name: 'testPp' },
-                nestedA: ['test', {name: 'testA'}]
+    try {
+        assert.deepEqual(result, testObjSucc);
+        assert.deepEqual(result, {
+            testT: 'Hello World',
+            testA: ['test', {name: 'testA'}],
+            testP: {
+                name: 'testP'
+            },
+            testPp: {
+                name: 'testPp'
+            },
+            testNested: {
+                obj: { name: 'testPp' },
+                testNn: {
+                    nested: { name: 'testPp' },
+                    nestedA: ['test', {name: 'testA'}]
+                }
             }
-        }
-    });
-    console.log('Successful promise without copy test passes.');
+        });
+        console.log('Successful promise without copy test passes.');
+    } catch(error){
+        console.error(error);
+        console.log('Successful promise without copy test fails.');
+        process.exit(1);
+    }
     // starting promise doomed to fail with copy
     return Promise.toObject(testObjFail);
 })
