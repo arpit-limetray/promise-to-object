@@ -2,6 +2,8 @@
 Resolves an object containing promises, works with nested promises and arrays.
 Works with Bluebird.
 
+Resolution is concurrent.
+
 ### How to use ?
 
 
@@ -54,7 +56,25 @@ Promise.toObject(someObjectWithPromises, { copy: true })
 #### Works with Arrays
 Mixed arrays will return the array with the result of promise at the same index
 the promise was.
-Example :
+
+Example with Array as first arg :
+```javascript
+Promise.toObject([
+    'foo',
+    new Promise((resolve, reject) => {
+        resolve('bar')
+    }),
+    {
+        hello: new Promise((resolve, reject) => {
+            resolve('world')
+        })
+    }
+])
+.then(result => {
+    console.log(result); // [ 'foo', 'bar', { hello: 'world' } ]
+});
+```
+Or array in object :
 ```javascript
 Promise.toObject({
     foo: 'bar',
@@ -66,8 +86,7 @@ Promise.toObject({
     ]
 })
 .then(result => {
-    console.log(result.foo); // bar
-    console.log(result.someArrayWithPromises); // ['hello', 'world !']
+    console.log(result); // { foo: bar, someArrayWithPromises: ['hello', 'world !'] }
 })
 ```
 

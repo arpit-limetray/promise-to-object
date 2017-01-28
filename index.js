@@ -2,13 +2,13 @@
 
 var promiseToObject = function(object, opts){
     if (!object || typeof(object) !== 'object') {
-        throw new Error('first arg must be an object.');
+        throw new Error('first arg must be an object or an array.');
     }
     opts = opts || {};
     var keys = Object.keys(object);
     var target;
     if (opts.copy) {
-        var copy = {};
+        var copy = object instanceof Array ? [] : {};
         target = copy;
     } else {
         target = object;
@@ -30,7 +30,17 @@ var promiseToObject = function(object, opts){
                     } else if (object[k] instanceof Array) {
                         target[k] = target[k] || [];
                         agg.concat(object[k].reduce(function(agg, elt, index) {
-                            if (typeof elt === 'object') {
+                            if (elt.then) {
+                                agg.push(new Promise(function(resolve, reject) {
+                                    elt.then(function(result) {
+                                        target[k][index] = result;
+                                        return resolve();
+                                    })
+                                    .catch(function(error) {
+                                        return reject(error);
+                                    });
+                                }));
+                            } else if (typeof elt === 'object') {
                                 agg.push(new Promise(function(resolve, reject) {
                                     return promiseToObject(elt, opts)
                                     .then(function(result) {
@@ -41,7 +51,7 @@ var promiseToObject = function(object, opts){
                                         return reject(error);
                                     });
                                 }));
-                            } else {
+                            }  else {
                                 target[k][index] = elt;
                             }
                             return agg;
