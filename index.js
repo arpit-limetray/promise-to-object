@@ -1,15 +1,14 @@
 'use strict';
 
 var promiseToObject = function(object, opts){
-    if (!object || typeof(object) !== 'object') {
+    if (!object || typeof object !== 'object') {
         throw new Error('first arg must be an object or an array.');
     }
     opts = opts || {};
     var keys = Object.keys(object);
     var target;
     if (opts.copy) {
-        var copy = object instanceof Array ? [] : {};
-        target = copy;
+        target = object instanceof Array ? [] : {};
     } else {
         target = object;
     }
@@ -56,7 +55,7 @@ var promiseToObject = function(object, opts){
                             }
                             return agg;
                         }, []));
-                    } else if (typeof(object[k]) === 'object')  {
+                    } else if (typeof object[k] === 'object')  {
                         agg.push(new Promise(function(resolve, reject) {
                             promiseToObject(object[k], opts)
                             .then(function(result) {
@@ -72,7 +71,8 @@ var promiseToObject = function(object, opts){
                     }
                 }
                 return agg
-            }, [])).then(function() {
+            }, []))
+            .then(function() {
                 return resolve(target);
             })
             .catch(function(error) {
