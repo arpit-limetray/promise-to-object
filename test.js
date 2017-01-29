@@ -8,39 +8,23 @@ global.Promise.toObject = require('./index.js');
 
 let testObjSucc = {
     testT: 'Hello World',
-    testA: ['test', new Promise((resolve, reject) => {
-        return resolve({name: 'testA'});
-    })],
-    testP: new Promise((resolve, reject) => {
-        return resolve({name: 'testP'});
-    }),
-    testPp: new Promise((resolve, reject) => {
-        return resolve({name: 'testPp'});
-    }),
+    testA: ['test', Promise.resolve({name: 'testA'})],
+    testP: Promise.resolve({name: 'testP'}),
+    testPp: Promise.resolve({name: 'testPp'}),
     testNested: {
-        obj: new Promise((resolve, reject) => {
-            return resolve({name: 'testPp'});
-        }),
+        obj: Promise.resolve({name: 'testPp'}),
         testNn: {
-            nested: new Promise((resolve, reject) => {
-                return resolve({name: 'testPp'});
-            }),
-            nestedA: ['test', new Promise((resolve, reject) => {
-                return resolve({name: 'testA'});
-            })]
+            nested: Promise.resolve({name: 'testPp'}),
+            nestedA: ['test', Promise.resolve({name: 'testA'})]
         }
     }
 };
 
 let testObjFail = {
     testT: "Hello World",
-    testP: new Promise((resolve, reject) => {
-        return resolve({name: 'testPp'});
-    }),
+    testP: Promise.resolve({name: 'testPp'}),
     nestedFail: {
-        testPp: new Promise(function(resolve, reject) {
-            return reject(new Error('Promise rejected !'));
-        })
+        testPp: Promise.reject(new Error('Promise rejected !'))
     }
 };
 // Start with copy test as original object will be overriden later

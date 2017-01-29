@@ -1,7 +1,7 @@
 'use strict';
 
 var promiseToObject = function(object, opts){
-    if (!object || typeof(object) !== 'object') {
+    if (!object || typeof object !== 'object') {
         throw new Error('first arg must be an object or an array.');
     }
     opts = opts || {};
@@ -56,7 +56,7 @@ var promiseToObject = function(object, opts){
                             }
                             return agg;
                         }, []));
-                    } else if (typeof(object[k]) === 'object')  {
+                    } else if (typeof object[k] === 'object')  {
                         agg.push(new Promise(function(resolve, reject) {
                             promiseToObject(object[k], opts)
                             .then(function(result) {

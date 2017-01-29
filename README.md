@@ -14,9 +14,7 @@ global.Promise.toObject = require('promise-to-object');
 
 Promise.toObject({
     foo: 'bar',
-    greet: new Promise((resolve, reject) => {
-        resolve('Hello world !');
-    })
+    greet: Promise.resolve('Hello world !')
 };)
 .then(result => {
     console.log(result.foo); // bar
@@ -41,9 +39,7 @@ Promise.toObject(someObjectWithPromises, { copy: true })
 let someObjectWithPromises = {
     foo: 'bar',
     nested: {
-        nestedGreeting: new Promise((resolve, reject) => {
-            resolve('Hello world !');
-        })
+        nestedGreeting: Promise.resolve('Hello world !')
     }
 };
 Promise.toObject(someObjectWithPromises, { copy: true })
@@ -61,13 +57,9 @@ Example with Array as first arg :
 ```javascript
 Promise.toObject([
     'foo',
-    new Promise((resolve, reject) => {
-        resolve('bar')
-    }),
+    Promise.resolve('bar'),
     {
-        hello: new Promise((resolve, reject) => {
-            resolve('world')
-        })
+        hello: Promise.resolve('world')
     }
 ])
 .then(result => {
@@ -80,9 +72,7 @@ Promise.toObject({
     foo: 'bar',
     someArrayWithPromises: [
         'hello',
-        new Promise((resolve, reject) => {
-            return resolve('world !');
-        })
+        Promise.resolve('world !')
     ]
 })
 .then(result => {
@@ -92,3 +82,17 @@ Promise.toObject({
 
 #### Promise rejection
 Rejection will occur when first promise rejection happens.
+
+```javascript
+Promise.toObject({
+    foo: new Promise((resolve, reject) => {
+        setTimeout(() => reject('1st promise rejection.'), 300)
+    }),
+    bar: new Promise((resolve, reject) => {
+        setTimeout(() => reject('2nd promise rejection.'), 100)
+    })
+})
+.catch(error => {
+    console.log(error); // 2nd promise rejection.
+});
+```
