@@ -1,6 +1,6 @@
 {
   "name": "promise-to-object",
-  "version": "1.1.31",
+  "version": "1.1.32",
   "description": "Resolves all promises in an object concurrently mapping promises results to the object.",
   "main": "index.js",
   "keywords": [

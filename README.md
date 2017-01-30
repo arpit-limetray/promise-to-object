@@ -15,7 +15,7 @@ global.Promise.toObject = require('promise-to-object');
 Promise.toObject({
     foo: 'bar',
     greet: Promise.resolve('Hello world !')
-};)
+})
 .then(result => {
     console.log(result.foo); // bar
     console.log(result.greet); // Hello world !
@@ -23,7 +23,6 @@ Promise.toObject({
 .catch(error => {
     console.error(error);
 });
-
 ```
 
 #### Copying the original object :
