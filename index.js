@@ -39,7 +39,7 @@ var promiseToObject = function(object, opts){
                                         return reject(error);
                                     });
                                 }));
-                            } else if (typeof elt === 'object') {
+                            } else if (elt && typeof elt === 'object') {
                                 agg.push(new Promise(function(resolve, reject) {
                                     return promiseToObject(elt, opts)
                                     .then(function(result) {
@@ -55,7 +55,7 @@ var promiseToObject = function(object, opts){
                             }
                             return agg;
                         }, []));
-                    } else if (typeof object[k] === 'object')  {
+                    } else if (object[k] && typeof object[k] === 'object')  {
                         agg.push(new Promise(function(resolve, reject) {
                             promiseToObject(object[k], opts)
                             .then(function(result) {
