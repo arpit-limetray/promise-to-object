@@ -16,7 +16,7 @@ var promiseToObject = function(object, opts){
         if (keys.length > 0) {
             Promise.all(keys.reduce(function(agg, k) {
                 if (object.hasOwnProperty(k)) {
-                    if (object[k].then) {
+                    if (object[k] && object[k].then) {
                         agg.push(new Promise(function(resolve, reject) {
                             object[k].then(function(result) {
                                 target[k] = result;
